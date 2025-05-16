@@ -70,7 +70,24 @@ function editarJogador(req:Request, res: Response):void{
 
         res.status(200).json(jogadores[index]);
     } catch (e: unknown) {
-        res.status(400).json({ message: "Erro ao editar jogador" });
+        res.status(400).json({message: (e as Error).message})
+    }
+}
+
+function deletarJogador(req:Request, res:Response):void{
+    try{
+        const id = req.params.id
+
+        const index = jogadores.findIndex(j => j.id === id);
+
+        if (index == -1){
+            res.status(404).json({ message: "Jogador não encontrado" });
+        }
+        jogadores.splice(index,1)
+
+        res.status(204).json()
+    }catch(e:unknown){
+        res.status(400).json({message: (e as Error).message})
     }
 }
 
@@ -78,4 +95,5 @@ app.get('/api/jogador/:id', filtrarPorId)
 app.get('/api/jogadores',todosJogadores)
 app.put('/api/jogador/:id',editarJogador)
 app.post('/api/jogador', novoJogador)
+app.delete('/api/jogador/:id',deletarJogador)
 app.listen(PORT, ()=> console.log(`API em execução no URL: http://localhost:${PORT}`))
