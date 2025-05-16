@@ -27,7 +27,7 @@ function filtrarPorId(req: Request, res: Response):void{
     }
 }
 
-function novoJogador(req: Request, res : Response){
+function novoJogador(req: Request, res : Response):void{
     try{
         let data : any = req.body
 
@@ -44,7 +44,7 @@ function novoJogador(req: Request, res : Response){
 }
 
 
-function editarJogador(req:Request, res: Response){
+function editarJogador(req:Request, res: Response):void{
     try {
         const id = req.params.id;
         const data: any = req.body;
@@ -52,11 +52,11 @@ function editarJogador(req:Request, res: Response){
         const index = jogadores.findIndex(j => j.id === id);
 
         if (index === -1) {
-            return res.status(404).json({ message: "Jogador não encontrado" });
+            res.status(404).json({ message: "Jogador não encontrado" });
         }
 
         if (!data.nome || !data.cpf || !data.email || !data.telefone || !data.posicao) {
-            return res.status(400).json({ message: "Todos os campos são obrigatórios: nome, cpf, email, telefone, posicao" });
+            res.status(400).json({ message: "Todos os campos são obrigatórios: nome, cpf, email, telefone, posicao" });
         }
 
         jogadores[index] = {
@@ -76,6 +76,6 @@ function editarJogador(req:Request, res: Response){
 
 app.get('/api/jogador/:id', filtrarPorId)
 app.get('/api/jogadores',todosJogadores)
-app.put('/api/jogador',editarJogador)
+app.put('/api/jogador/:id',editarJogador)
 app.post('/api/jogador', novoJogador)
 app.listen(PORT, ()=> console.log(`API em execução no URL: http://localhost:${PORT}`))
