@@ -1,12 +1,12 @@
-export class Fabricante{
-    id : number
+export class Jogador{
+    id : string
     nome : string
     cpf : string
     email : string
     telefone : string
     posicao : string
 
-    constructor(id: number,nome : string, cpf: string, email: string, telefone: string, posicao: string ){
+    constructor(id: string,nome : string, cpf: string, email: string, telefone: string, posicao: string ){
         this.id = id
         this.nome = nome
         this.cpf = cpf
